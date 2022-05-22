@@ -1,0 +1,7 @@
+---
+# tasks file for tomcat-install
+- include_tasks: usercreation-play.yml
+- include_tasks: fsconfiguration.yml
+- include_tasks: httpd-playbook.yml
+- include_tasks: tomcatvar1-playbook.yml
+- include_tasks: teaming-play.yml

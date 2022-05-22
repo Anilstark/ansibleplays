@@ -1,0 +1,11 @@
+---
+    - name: installing httpd
+      yum: name=httpd state=latest
+    - name: copiying httpd.conf file to /var/tmp
+      copy: src=httpd.conf dest=/etc/httpd/conf/httpd.conf
+    - name: starting httpd service
+      service: name=httpd state=started enabled=yes
+    - name: index.html configuration
+      copy: src=index.html dest=/var/www/html/index.html
+      notify:
+         - restart httpd service

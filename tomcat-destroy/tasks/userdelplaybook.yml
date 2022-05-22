@@ -1,0 +1,11 @@
+---
+     - name: removing crmuser
+       user: name=crmuser group=crmdb home=/home/crmuser  state=absent force=yes
+     - name: removing asadmin
+       user: name=asadmin group=asadmin home=/home/asadmin  state=absent force=yes
+     - name: removing appuser 
+       user: name=appuser home=/home/appuser  state=absent force=yes
+     - name: removing was 
+       user: name=was home=/home/was  state=absent force=yes
+     - name: removing avamar
+       user: name=avamar group=avamar state=absent force=yes

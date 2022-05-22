@@ -1,0 +1,7 @@
+---
+# tasks file for tomcat-destroy
+- import_tasks: userdelplaybook.yml
+- import_tasks: fsdistroy.yml
+- import_tasks: httpddest-playbook.yml
+- import_tasks: tomcatdestr-playbook.yml
+- import_tasks: teamindest.yml

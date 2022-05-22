@@ -1,0 +1,9 @@
+---
+# handlers file for tomcat-destroy
+     - name: restart network
+       service: name=network state=restarted
+     - name: deleting tomcat group
+       group:
+          name: tomcat
+          state: absent
+

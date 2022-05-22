@@ -1,0 +1,9 @@
+---
+     - name: ens39 interface file setup
+       copy: src=ifcfg-ens39 dest=/etc/sysconfig/network-scripts 
+     - name: ens38 interface file setup
+       copy: src=ifcfg-ens38 dest=/etc/sysconfig/network-scripts
+     - name: team0 interface file setup
+       copy: src=ifcfg-team0 dest=/etc/sysconfig/network-scripts
+       notify:
+          - restart network service

@@ -1,0 +1,9 @@
+---
+     - name: stopping httpd service
+       service: name=httpd state=stopped
+     - name: removing httpd package
+       yum: name=httpd state=absent
+     - name: removing httpd.conf
+       file: name=/etc/httpd state=absent 
+     - name: removing index.html 
+       file: name=/var/www state=absent 

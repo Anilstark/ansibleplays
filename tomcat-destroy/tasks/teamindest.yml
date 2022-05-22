@@ -1,0 +1,12 @@
+---
+     - name: downing team0 nic
+       command: ifdown team0
+     - name: removing interface files
+       file: 
+          path: "{{ item }}" 
+          state: absent 
+       with_items:
+          - /etc/sysconfig/network-scripts/ifcfg-ens38
+          - /etc/sysconfig/network-scripts/ifcfg-ens39
+          - /etc/sysconfig/network-scripts/ifcfg-team0
+       notify: restart network

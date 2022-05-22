@@ -1,0 +1,42 @@
+---
+      - name: umounting /appdata
+        mount: path=/appdata state=absent
+      - name: removing lv
+        lvol: lv=applv vg=appvg state=absent force=yes
+      - name: removing pv and vg
+        lvg: vg=appvg pvs=/dev/sdb1 state=absent
+      - name: removing partition /dev/sdb
+        parted: device=/dev/sdb number=1 state=absent
+      - name: umounting /asadmindata
+        mount: path=/asadmindata state=absent
+      - name: removing lv
+        lvol: lv=asadminlv vg=asadminvg state=absent force=yes
+      - name: removing pv and vg
+        lvg: vg=asadminvg pvs=/dev/sdc1 state=absent
+      - name: removing partition /dev/sdc
+        parted: device=/dev/sdc number=1 state=absent
+      - name: umounting /wasdata
+        mount: path=/wasdata state=absent
+      - name: removing lv
+        lvol: lv=waslv vg=wasvg state=absent force=yes
+      - name: removing pv and vg
+        lvg: vg=wasvg pvs=/dev/sdd1 state=absent
+      - name: removing partition /dev/sdd
+        parted: device=/dev/sdd number=1 state=absent
+      - name: umounting /backupdata
+        mount: path=/backupdata state=absent
+      - name: removing lv
+        lvol: lv=backuplv vg=backupvg state=absent force=yes
+      - name: removing pv and vg
+        lvg: vg=backupvg pvs=/dev/sde1 state=absent
+      - name: removing partition /dev/sde
+        parted: device=/dev/sde number=1 state=absent
+      - name: umounting /crmdata
+        mount: path=/crmdata state=absent
+      - name: removing lv
+        lvol: lv=crmlv vg=crmvg state=absent force=yes
+      - name: removing pv and vg
+        lvg: vg=crmvg pvs=/dev/sdf1 state=absent
+      - name: removing partition /dev/sdf
+        parted: device=/dev/sdf number=1 state=absent
+      

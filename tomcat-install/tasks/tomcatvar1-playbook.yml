@@ -1,0 +1,46 @@
+---
+     - name: installing java packages
+       yum:
+         name: 
+          - java
+          -  java-1.8.0-openjdk-devel
+         state: latest
+     - name: creating tomcat user
+       user: name=tomcat home=/opt/tomcat password="tomcat@123" state=present
+     - name: downloading tomcat 
+       get_url: url="{{ tomcaturl }}" dest=/opt/tomcat
+     - name: extracting tar file
+       unarchive: src=/opt/tomcat/apache-tomcat-9.0.62.tar.gz dest=/opt/tomcat/ remote_src=true
+     - name: creating softlink 
+       file: src=/opt/tomcat/apache-tomcat-9.0.62 dest=/opt/tomcat/latest state=link
+     - name: changing ownership for /opt/tomcat
+       file: path=/opt/tomcat owner=tomcat group=tomcat recurse=true
+     - name: changing permissions for startup.sh file
+       file: path=/opt/tomcat/latest/bin/startup.sh mode=a+x
+     - name: creating tomcat.service file
+       file: path=/etc/systemd/system/tomcat.service state=touch
+     - name: adding entry in tomcat.service file
+       blockinfile:
+             path: /etc/systemd/system/tomcat.service
+             block: |
+                [Unit]
+                Description=Tomcat 9 servlet container
+                After=network.target
+                [Service]
+                Type=forking
+                User=tomcat
+                Group=tomcat
+                Environment="JAVA_HOME=/usr/lib/jvm/jre"
+                Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom"
+                Environment="CATALINA_BASE=/opt/tomcat/latest"
+                Environment="CATALINA_HOME=/opt/tomcat/latest"
+                Environment="CATALINA_PID=/opt/tomcat/latest/temp/tomcat.pid"
+                Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+                ExecStart=/opt/tomcat/latest/bin/startup.sh
+                ExecStop=/opt/tomcat/latest/bin/shutdown.sh
+                [Install]
+                WantedBy=multi-user.target    
+     - name: starting tomcat service
+       systemd: daemon_reload=yes name=tomcat state=started
+
+        
