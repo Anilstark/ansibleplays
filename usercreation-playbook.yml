@@ -1,0 +1,23 @@
+---
+-  name: creating appuser in clients
+   hosts: dbclients
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: creating a group
+       group:
+         name: app
+         gid: 5001
+         state: present
+     - name: creating appuser
+       user:
+         name: appuser
+         uid: 1210
+         group: app
+         comment: "application user"
+         shell: /bin/sh
+         home: /home/appuser
+         password: "appuser@123"
+         
+         
+         

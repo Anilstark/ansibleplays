@@ -1,0 +1,57 @@
+---
+
+-  name: configuring tomcat
+   hosts: dbclients
+   become: true
+   remote_user: ansible
+   tasks:
+     - name: java packages installation
+       yum: 
+         name: 
+          - java
+          - java-1.8.0-openjdk-devel
+         state: latest
+     - name: creating tomcat user
+       user: 
+          name: tomcat
+          home: /opt/tomcat
+     - name: downloading tomcat
+       get_url: 
+          url: http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz
+          dest: /opt/tomcat
+     - name: extracting toomcat file
+       unarchive:
+           src: /opt/tomcat/apache-tomcat-9.0.62.tar.gz
+           dest: /opt/tomcat
+           remote_src: yes
+           owner: tomcat
+           group: tomcat
+     - name: creating soft link to tomcat directory
+       file: 
+          src: /opt/tomcat/apache-tomcat-9.0.62.tar.gz
+          dest:  /opt/tomcat/latest
+          state: link
+          owner: tomcat
+          group: tomcat
+     - name: modifying ownership and group of tomcat directory 
+       file: 
+          path: /opt/tomcat
+          owner: tomcat
+          group: tomcat
+          mode: '0755'
+          recurse: yes
+     - name: creating tomcat configuration file
+       copy: 
+          src: /tmp/tomcatopts
+          dest: /etc/systemd/system/tomcat.service
+     - name: starting tomcat service
+       shell: /opt/tomcat/apache-tomcat-9.0.62/bin/startup.sh
+     - name: services starting
+       command: "{{ item }}" 
+       with_items:
+            - systemctl daemon-reload
+            - systemctl status tomcat
+            - systemctl start tomcat
+            - systemctl status tomcat
+            - systemctl status firewalld
+            - sestatus

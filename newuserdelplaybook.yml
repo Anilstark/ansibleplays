@@ -1,0 +1,17 @@
+---
+-  name: creating users
+   hosts: client3
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: creating crmuser
+       user: name=crmuser group=crmdb home=/home/crmuser password="crmuser@123" state=absent remove=yes
+     - name: creating sybaseuser
+       user: name=sybaseuser group=sybasedb home=/home/sybaseuser password="sybaseuser@123" state=absent remove=yes
+     - name: creating tomcatuser
+       user: name=tomcat home=/opt/tomcat password="tomcat@123" state=absent remove=yes 
+     - name: creating appuser 
+       user: name=appuser home=/home/appuser password="appuser@123" state=absent remove=yes
+     - name: creating tempuser 
+       user: name=tempuser home=/home/tempuser password="tempuser@123" state=absent remove=yes
+     

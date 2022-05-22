@@ -1,0 +1,8 @@
+---
+-  name: tomcat installation with disk config and users creation and httpd installation
+   hosts: client1
+   remote_user: ansible
+   become: true
+   vars:
+   roles:
+     - postinstall-tomcat

@@ -1,0 +1,8 @@
+---
+-  name: teaming cofiguration
+   hosts: client3
+   remote_user: ansible
+   become: true
+   vars:
+   roles: 
+     - tomcat-install

@@ -1,0 +1,36 @@
+---
+-  name: removing filesystem configuration
+   hosts: client3
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: removing and unmountig appdata1
+       mount:
+         path: /crmdata
+         state: absent
+     - name: removing applv1
+       lvol:
+          vg: crmvg
+          lv: crmlv
+          state: absent
+          force: yes
+     - name: removing and unmounting appdata2
+       mount:
+           path: /sybasedata
+           state: absent
+     - name: removing applv2
+       lvol:
+          vg: crmvg
+          lv: sybaselv
+          state: absent
+          force: yes
+     - name: removing vg and pv
+       lvg:
+         vg: crmvg
+         pvs: /dev/sdb1
+         state: absent
+     - name: removing disk partition
+       parted:
+         device: /dev/sdb
+         number: 1  
+         state: absent

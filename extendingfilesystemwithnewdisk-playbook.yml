@@ -1,0 +1,25 @@
+---
+-  name: extending a file system with new disk
+   hosts: dbclients
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: partitioning a new disk
+       parted:
+        device: /dev/sdc
+        number: 1
+        state: present
+     - name: creating a pv and extending vg
+       lvg:
+         vg: sharevg
+         pvs: /dev/sdc1,/dev/sdb1
+     - name: extending lv
+       lvol:
+         vg: sharevg
+         lv: sharelv
+         size: +100%FREE
+     - name: resizing filesystem
+       filesystem: 
+               dev: /dev/sharevg/sharelv  
+               fstype: ext4
+               resizefs: true  

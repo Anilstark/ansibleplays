@@ -1,0 +1,40 @@
+---
+-  name: removing tomcat service
+   hosts: client3
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: stopping tomcat sevice
+       systemd:
+           name: tomcat
+           state: stopped
+     - name: removing tomcat.sevice file
+       file: 
+         path: /etc/systemd/system/tomcat.service
+         state: absent
+     - name: removing /opt/tomcat diectory
+       file:
+         path: /opt/tomcat
+         state: absent
+     - name: uninstalling java packages
+       yum:
+         name: java
+         state: absent
+     - name: uninstalling java-jdk package
+       yum:
+         name: java-1.8.0-openjdk-devel
+         state: absent
+       notify:
+          -  deleting tomcat group
+     - name: removing tomcat user
+       user: 
+         name: tomcat
+         state: absent
+         remove: yes
+   handlers: 
+     - name: deleting tomcat group
+       group:
+          name: tomcat
+          state: absent
+          
+     

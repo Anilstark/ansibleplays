@@ -1,0 +1,23 @@
+---
+-  name: httpd installation
+   hosts: all
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: install httpd package
+       yum:
+        name: httpd
+        state: latest
+     - name: start httpd service
+       service:
+             name: httpd  
+             state: started
+             enabled: yes
+     - name: add entry into the web page
+       copy:
+        content: "this is ashok world located at chandanagar"
+        dest: /var/www/html/index.html
+     - name: restart httpd service
+       service:
+             name: httpd
+             state: restarted

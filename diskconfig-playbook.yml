@@ -1,0 +1,35 @@
+---
+
+-  name: filesystem configuration
+   hosts: dbclients
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: partioning a disk
+       parted:
+           device: /dev/sdb
+           number: 1
+           state: present
+     - name: creating a vg
+       lvg:
+         vg: sharevg
+         pvs: /dev/sdb1
+     - name: creating an lv
+       lvol:
+         vg: sharevg
+         lv: sharelv
+         size: 600m
+     - name: configuring a file system
+       filesystem:
+           fstype: ext4
+           dev: /dev/sharevg/sharelv
+     - name: creating a mount point
+       file:
+        path: /share1
+        state: directory
+     - name: mounting file system
+       mount:
+         path: /share1
+         src: /dev/sharevg/sharelv
+         fstype: ext4
+         state: mounted

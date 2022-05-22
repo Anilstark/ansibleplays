@@ -1,0 +1,7 @@
+---
+-  name: removing teaming configuration
+   hosts: client3
+   remote_user: ansible
+   become: true
+   roles:
+     - tomcat-destroy

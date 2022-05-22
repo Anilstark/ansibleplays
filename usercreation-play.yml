@@ -1,0 +1,26 @@
+---
+-  name: creating users
+   hosts: client3
+   remote_user: ansible
+   become: true
+   tasks:
+     - name: creating appgroup
+       group: name=appgrp state=present
+     - name: creating appuser
+       user: name=appuser group=appgrp uid=1010 comment="application user" shell=/bin/bash
+     - name: creating asadmingroup
+       group: name=asadmin state=present
+     - name: creating asadmin user
+       user: name=asadmin group=asadmin uid=1011 comment="asadmin user" shell=/bin/sh
+     - name: creating was group
+       group: name=was state=present
+     - name: creating was user
+       user: name=was group=was uid=1012 comment="was user" shell=/bin/bash
+     - name: creating avamar group
+       group: name=avamar state=present
+     - name: creating avamar user
+       user: name=avamar group=avamar uid=1013 comment="backup user" shell=/bin/sh
+     - name: creating crmgroup
+       group: name=crmgrp state=present
+     - name: creating crmuser
+       user: name=crmuser group=crmgrp uid=1014 comment="crm user" shell=/bin/sh

@@ -1,0 +1,7 @@
+---
+-  name: tomcat setup configuraion role
+   hosts: client1
+   remote_user: ansible
+   become: true
+   roles:
+     - install-tomcat

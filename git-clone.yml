@@ -1,0 +1,24 @@
+---
+-  name: git clone configuration
+   hosts: client1
+   remote_user: ansible
+   become: true
+   tasks: 
+     - name: installing git pacakage
+       yum: name=git state=latest
+     - name: creating local directory
+       file: path=/gitclone state=directory
+     - name: taking remote repository as clone
+       git:
+         repo: https://github.com/Anilkumarpan/ansibleproject.git
+         dest: /gitclone
+     - name: copying files to git hub
+       copy: 
+         src: /home/ansible
+         dest: /gitclone
+     - name: committing newly added directory
+       git:
+         path: /gitclone/ansible
+         comment: 'my ansible playbooks'
+         commit: true 
+               
